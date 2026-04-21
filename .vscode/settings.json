@@ -5,6 +5,7 @@
     "shadcn",
     "tailwindcs",
     "vite",
-    "vitejs"
+    "vitejs",
+    "wujie-react",
   ]
 }
