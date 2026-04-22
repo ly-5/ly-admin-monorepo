@@ -27,7 +27,11 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "catalog:",
     "@tabler/icons-react": "catalog:",
+    "react-redux": "catalog:",
+    "react-router-dom": "catalog:",
+    "sonner": "catalog:",
     "wujie-react": "catalog:"
   }
 }

@@ -9,6 +9,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "types": ["vite/client"]
   }
 }

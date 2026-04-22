@@ -13,6 +13,6 @@
       "@workspace/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [".", "../../apps/system/src/layout/nav-user.tsx"],
   "exclude": ["node_modules", "dist"]
 }

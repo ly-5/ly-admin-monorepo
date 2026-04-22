@@ -11,4 +11,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    port: 3000,
+    proxy: {
+      '/assets': {
+        target: 'http://10.87.106.237:9696',
+        rewrite: (path) => path.replace(/^\/assets/, 'assets'),
+        changeOrigin: true,
+      },
+    },
+  },
 })

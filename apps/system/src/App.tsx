@@ -1,10 +1,15 @@
-import { AppSidebar } from "@workspace/ui/components/app-sidebar"
-import { Separator } from "@workspace/ui/components/separator"
+import { AppSidebar } from "@/layout"
+// import { Separator } from "@workspace/ui/components/separator"
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@workspace/ui/components/sidebar"
+
+// const tabs = [
+//   {
+//     title: '首页',
+//   }
+// ]
 
 export default function App() {
   return (
@@ -16,21 +21,17 @@ export default function App() {
       }
     >
       <AppSidebar />
-      <SidebarInset className="bg-sidebar">
-        <header className="sticky top-2.5 flex shrink-0 items-center gap-2 bg-background p-2 rounded-md border border-border shadow-sm mx-4">
-          <SidebarTrigger className="cursor-pointer" />
-          <Separator
-            orientation="vertical"
-            className="mr-2"
-          />
+      <SidebarInset>
+        <header>
+
         </header>
-        <div className="flex-1 gap-4 p-4 grid grid-cols-3">
-          {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              key={index}
-              className="aspect-video h-40 w-full rounded-lg bg-background shadow-md"
-            />
-          ))}
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
       </SidebarInset>
     </SidebarProvider>
