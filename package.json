@@ -29,6 +29,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "catalog:",
     "@tabler/icons-react": "catalog:",
+    "@types/node": "catalog:",
     "react-redux": "catalog:",
     "react-router-dom": "catalog:",
     "sonner": "catalog:",

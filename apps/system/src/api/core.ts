@@ -7,6 +7,8 @@ export interface MenuItem {
   icon?: string
   /** 0: 目录 1: 菜单 */
   type: number
+  /** 是否为微应用 */
+  wujie?: boolean
   children?: MenuItem[]
 }
 

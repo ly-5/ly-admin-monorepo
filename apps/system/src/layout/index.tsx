@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, NavLink } from 'react-router-dom'
 import {
   Sidebar,
   SidebarContent,
@@ -10,13 +10,17 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarInput,
+  SidebarMenuSub,
   SidebarMenu,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
 } from "@workspace/ui/components/sidebar"
-import { IconInbox, IconCommand } from "@tabler/icons-react"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible'
+import { IconInbox, IconCommand, IconChevronRight } from "@tabler/icons-react"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Note: I'm using state to show active item.
@@ -94,8 +98,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
-            <div className="text-base font-medium text-foreground">
-              {activeItem?.title}
+            <div className="text-base font-bold text-foreground">
+              {activeItem?.name}
             </div>
           </div>
           <SidebarInput placeholder="请搜索..." />
@@ -103,15 +107,46 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
-              {activeItem.children.map((item) => (
-                <a
-                  href="#"
-                  key={item.id}
-                  className="flex flex-col items-start border-b px-4 py-2 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
-                  {item.name}
-                </a>
-              ))}
+              <SidebarMenu>
+                {
+                  activeItem.children.map((item) => (
+                    item.children && item.children.length ?
+                    (
+                      <Collapsible key={item.id} asChild className="group/collapsible mx-2">
+                        <SidebarMenuItem>
+                          <CollapsibleTrigger asChild>
+                            <SidebarMenuButton tooltip={item.name}>
+                              <span>{item.name}</span>
+                              <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <SidebarMenuSub>
+                              {(item.children || []).map((subItem) => (
+                                <SidebarMenuSubItem key={subItem.id}>
+                                  <SidebarMenuSubButton asChild>
+                                    <NavLink to={subItem.path}>
+                                      <span>{subItem.name}</span>
+                                    </NavLink>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              ))}
+                            </SidebarMenuSub>
+                          </CollapsibleContent>
+                        </SidebarMenuItem>
+                      </Collapsible>
+                    )
+                  :  
+                    (
+                      <SidebarMenuButton>
+                        <NavLink to={item.path}>
+                          <span>{item.name}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    )
+                  ))
+                }
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
