@@ -86,7 +86,27 @@ export function RouterPage() {
             type: 1,
           }
         ]
-      }
+      },
+      {
+        name: '系统设置',
+        id: '3',
+        path: 'setting',
+        type: 0,
+        children: [
+          {
+            name: '菜单管理',
+            id: '3-1',
+            path: 'menu',
+            type: 1,
+          },
+          {
+            name: '角色管理',
+            id: '3-2',
+            path: 'role',
+            type: 1,
+          }
+        ]
+      },
     ] })
   }, [data.menuList])
 

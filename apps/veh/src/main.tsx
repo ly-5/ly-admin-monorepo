@@ -15,7 +15,6 @@ function render() {
   );
 }
 
-
 if (window.__POWERED_BY_WUJIE__) {
   window.__WUJIE_MOUNT = () => {
     render();

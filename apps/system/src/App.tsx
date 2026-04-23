@@ -17,7 +17,7 @@ export default function App() {
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "250px",
+          "--sidebar-width": "220px",
         } as React.CSSProperties
       }
     >
