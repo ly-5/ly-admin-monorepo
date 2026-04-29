@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { toast } from 'sonner'
 
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxNzY4ODg4MTcwMSIsInN5c3RlbUNvZGUiOiJTMTAxNSIsInl5eXlNTWRkIjoiMTc3NjgzOTgzOTQwNCIsImV4cCI6MTc3NjkyNjIzOX0.-qNEC2xguL4OybGx5hXXGTFlK4jbAalUvQritca4uBc'
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxNzY4ODg4MTcwMSIsInN5c3RlbUNvZGUiOiJTMTAxNSIsInl5eXlNTWRkIjoiMTc3NzQyNjEyNTMwMCIsImV4cCI6MTc3NzUxMjUyNX0.5xsL2XJUTOGk9QR_2VSyhnndjB34yVedlTT2NKUkyt0'
 
 const SUCCESS_CODE = 0
 // const UNAUTHORIZED_CODE = 401

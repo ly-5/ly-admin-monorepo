@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useLoaderData, NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useLoaderData } from 'react-router-dom'
 import {
   Sidebar,
   SidebarContent,
@@ -21,18 +21,36 @@ import {
 } from "@workspace/ui/components/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible'
 import { IconInbox, IconChevronRight } from "@tabler/icons-react"
+import type { MenuItem } from '@/api/core'
+
+function isRouteActive(pathname: string, path: string): boolean {
+  return pathname === path || pathname.startsWith(`${path}/`)
+}
+
+function hasActiveChild(pathname: string, prefix: string, item: MenuItem): boolean {
+  const fullPath = `${prefix}/${item.path}`
+  if (item.type === 1 && isRouteActive(pathname, fullPath)) return true
+  return item.children?.some(child => hasActiveChild(pathname, fullPath, child)) ?? false
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Note: I'm using state to show active item.
-  // IRL you should use the url/router.
-  const routes = useLoaderData()
-  const [activeItem, setActiveItem] = React.useState(routes[0])
+  const { menus } = useLoaderData() as { menus: MenuItem[] }
   const { setOpen } = useSidebar()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
 
-  const handleItemClick = React.useCallback((item) => {
-    setActiveItem(item)
+  const activeGroup = React.useMemo(
+    () => menus.find(item => isRouteActive(pathname, `/${item.path}`)) ?? menus[0],
+    [menus, pathname]
+  )
+
+  const handleGroupClick = React.useCallback((item: MenuItem) => {
+    const firstLeaf = item.children?.[0]
+    if (firstLeaf) {
+      navigate(`/${item.path}/${firstLeaf.path}`)
+    }
     setOpen(true)
-  }, [setOpen])
+  }, [navigate, setOpen])
 
   return (
     <Sidebar
@@ -40,9 +58,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row border-r-0!"
       {...props}
     >
-      {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
-      {/* This will make the sidebar appear as icons. */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! bg-linear-to-b from-[#0554bf] to-primary"
@@ -62,19 +77,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarMenu>
-                {routes.map((item) => (
+                {menus.map((item) => (
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       tooltip={{
                         children: item.name,
                         hidden: false,
                       }}
-                      onClick={() => handleItemClick(item)}
-                      isActive={activeItem?.name === item.name}
+                      onClick={() => handleGroupClick(item)}
+                      isActive={activeGroup?.id === item.id}
                       className="px-2.5 md:px-2"
                     >
-                      {/* {item.icon} */}
-                      {/* <span>{item.name}</span> */}
                       <IconInbox />
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -88,13 +101,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       </Sidebar>
 
-      {/* This is the second sidebar */}
-      {/* We disable collapsible and let it fill remaining space */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-bold text-foreground">
-              {activeItem?.name}
+              {activeGroup?.name}
             </div>
           </div>
           <SidebarInput placeholder="请搜索..." />
@@ -103,44 +114,53 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroup className="px-0">
             <SidebarGroupContent>
               <SidebarMenu>
-                {
-                  activeItem.children.map((item) => (
-                    item.children && item.children.length ?
-                    (
-                      <Collapsible key={item.id} asChild className="group/collapsible mx-2">
-                        <SidebarMenuItem>
-                          <CollapsibleTrigger asChild>
-                            <SidebarMenuButton tooltip={item.name}>
-                              <span>{item.name}</span>
-                              <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                            </SidebarMenuButton>
-                          </CollapsibleTrigger>
-                          <CollapsibleContent>
-                            <SidebarMenuSub>
-                              {(item.children || []).map((subItem) => (
+                {(activeGroup?.children ?? []).map((item) => {
+                  const itemPath = `/${activeGroup.path}/${item.path}`
+                  return item.children?.length ? (
+                    <Collapsible
+                      key={item.id}
+                      asChild
+                      className="group/collapsible mx-2"
+                      defaultOpen={hasActiveChild(pathname, `/${activeGroup.path}`, item)}
+                    >
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton
+                            tooltip={item.name}
+                            isActive={hasActiveChild(pathname, `/${activeGroup.path}`, item)}
+                          >
+                            <span>{item.name}</span>
+                            <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <SidebarMenuSub>
+                            {item.children.map((subItem) => {
+                              const subPath = `${itemPath}/${subItem.path}`
+                              return (
                                 <SidebarMenuSubItem key={subItem.id}>
-                                  <SidebarMenuSubButton asChild>
-                                    <NavLink to={subItem.path}>
+                                  <SidebarMenuSubButton asChild isActive={isRouteActive(pathname, subPath)}>
+                                    <NavLink to={subPath}>
                                       <span>{subItem.name}</span>
                                     </NavLink>
                                   </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
-                              ))}
-                            </SidebarMenuSub>
-                          </CollapsibleContent>
-                        </SidebarMenuItem>
-                      </Collapsible>
-                    )
-                  :  
-                    (
-                      <SidebarMenuButton>
-                        <NavLink to={item.path}>
+                              )
+                            })}
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+                  ) : (
+                    <SidebarMenuItem key={item.id}>
+                      <SidebarMenuButton asChild isActive={isRouteActive(pathname, itemPath)}>
+                        <NavLink to={itemPath}>
                           <span>{item.name}</span>
                         </NavLink>
                       </SidebarMenuButton>
-                    )
-                  ))
-                }
+                    </SidebarMenuItem>
+                  )
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
