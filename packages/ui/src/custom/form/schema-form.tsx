@@ -38,13 +38,6 @@ type SchemaFormOptions<TFormData extends Record<string, unknown>> = SchemaFormLa
     showActions?: boolean
   }
 
-const columnClassNames = {
-  1: 'grid-cols-1',
-  2: 'grid-cols-2',
-  3: 'grid-cols-3',
-  4: 'grid-cols-4',
-} as const
-
 function renderSchemaField(item: FormSchemaItem) {
   switch (item.componentType) {
     case 'Input':
@@ -118,6 +111,11 @@ function renderActions(
   )
 }
 
+const getColSpan = (num: number, total: number) => {
+  const remainder = total % num
+  return `col-span-${remainder === 0 ? num : num - remainder}`
+}
+
 function SchemaForm<TFormData extends Record<string, unknown> = Record<string, unknown>>({
   schema,
   defaultValues,
@@ -148,7 +146,7 @@ function SchemaForm<TFormData extends Record<string, unknown> = Record<string, u
         form.handleSubmit()
       }}
     >
-      <FieldGroup className={cn('grid gap-2', columnClassNames[columns])}>
+      <FieldGroup className={cn('grid gap-2', `grid-cols-${columns}`)}>
         {schema.map((item) => (
           <form.AppField
             key={item.name}
@@ -159,7 +157,7 @@ function SchemaForm<TFormData extends Record<string, unknown> = Record<string, u
         ))}
 
         {shouldRenderActions ? (
-          <div className={cn('col-span-full', actionsClassName)}>
+          <div className={cn(getColSpan(columns, schema.length), actionsClassName)}>
             <form.AppForm>{renderActions(form as AppFormInstance, actions)}</form.AppForm>
           </div>
         ) : null}

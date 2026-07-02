@@ -28,7 +28,7 @@ export function FormFieldLayout({
 
   return (
     <Field orientation={orientation} data-invalid={isInvalid || undefined}>
-      <FieldLabel htmlFor={field.name} className={cn('flex-none! gap-0 w-auto', labelClassName)}>
+      <FieldLabel htmlFor={field.name} className={cn('flex-none! gap-0 w-auto leading-7', labelClassName)}>
         {required ? <span className="text-destructive">*</span> : null}
         {label}
       </FieldLabel>
