@@ -14,7 +14,7 @@ export default function App() {
     >
       <AppSidebar />
 
-      <SidebarInset className="bg-transparent shadow-none! m-0!">
+      <SidebarInset className="bg-sidebar shadow-none! m-0!">
         <header className="flex h-13 shrink-0 items-center gap-2 justify-between px-4">
           <div className="flex items-center">
             <IconArrowBack className="size-5 cursor-pointer mr-4" />
@@ -25,10 +25,8 @@ export default function App() {
             <IconSettings className="size-5 cursor-pointer" />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-3 p-4 pt-0">
-          {/* <Outlet /> */}
-          <div className="bg-white h-[90px] shadow-[0 1px 2px #0c0c0d0a] rounded-sm"></div>
-          <div className="bg-white flex-1 shadow-[0 1px 2px #0c0c0d0a] rounded-sm"></div>
+        <div className="flex bg-[#F8F8F8] flex-1 flex-col gap-3 p-4 pt-0 border-[#E2E2E2] border rounded-tl-2xl rounded-bl-2xl">
+          <Outlet />
         </div>
       </SidebarInset>
     </SidebarProvider>

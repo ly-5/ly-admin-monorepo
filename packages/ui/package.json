@@ -15,6 +15,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@fontsource-variable/montserrat": "catalog:",
     "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-form": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "next-themes": "^0.4.6",
@@ -26,8 +27,7 @@
     "sonner": "catalog:",
     "tailwind-merge": "catalog:",
     "tw-animate-css": "catalog:",
-    "vaul": "^1.1.2",
-    "zod": "^4.3.6"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/vite": "catalog:",
@@ -41,8 +41,8 @@
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./custom/*": "./src/custom/*.tsx",
+    "./components/*": "./src/components/*",
+    "./custom/*": "./src/custom/*",
     "./hooks/*": "./src/hooks/*.ts"
   }
 }

@@ -16,6 +16,7 @@ export function createViteConfig(options: CreateViteConfigOptions = {}) {
       const base: UserConfig = {
         plugins: [react(), tailwindcss()],
         resolve: {
+          extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
           alias: {
             "@": path.resolve(process.cwd(), `./${srcDir}`),
           },

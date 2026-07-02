@@ -12,10 +12,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-form": "catalog:",
     "@workspace/config": "workspace:*",
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",

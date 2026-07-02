@@ -39,21 +39,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           items={[
             {
               title: '首页',
-              url: '#',
+              url: '/home',
               items: [
                 {
                   title: '工作台',
-                  url: '#',
+                  url: '/home/workbench',
                   icon: IconHome,
                 },
                 {
                   title: '我的待办',
-                  url: '#',
+                  url: '/home/todo',
                   icon: IconUser,
                   items: [
                     {
                       title: '待办事项',
-                      url: '#',
+                      url: '/home/todo/tasks',
                     },
                   ]
                 },
