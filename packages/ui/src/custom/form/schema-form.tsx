@@ -23,37 +23,25 @@ type AppFormInstance = ReturnType<typeof useSchemaForm>
 type SchemaFormOptions<TFormData extends Record<string, unknown>> = SchemaFormLayoutProps &
   SchemaFormValidationProps<TFormData> & {
     schema: FormSchemaItem[]
-
     defaultValues?: TFormData
-
     onSubmit?: (payload: { value: TFormData }) => void | Promise<void>
-
     validators?: {
       onChange?: FormValidateOrFn<TFormData>
-
       onChangeAsync?: FormAsyncValidateOrFn<TFormData>
-
       onBlur?: FormValidateOrFn<TFormData>
-
       onBlurAsync?: FormAsyncValidateOrFn<TFormData>
-
       onSubmit?: FormValidateOrFn<TFormData>
-
       onSubmitAsync?: FormAsyncValidateOrFn<TFormData>
     }
 
     actions?: ReactNode | ((form: AppFormInstance) => ReactNode)
-
     showActions?: boolean
   }
 
 const columnClassNames = {
   1: 'grid-cols-1',
-
   2: 'grid-cols-2',
-
   3: 'grid-cols-3',
-
   4: 'grid-cols-4',
 } as const
 
@@ -132,32 +120,20 @@ function renderActions(
 
 function SchemaForm<TFormData extends Record<string, unknown> = Record<string, unknown>>({
   schema,
-
   defaultValues,
-
   onSubmit,
-
   className,
-
   columns = 2,
-
   actionsClassName,
-
   validators,
-
   zodSchema,
-
   validationMode = 'onChange',
-
   actions,
-
   showActions = false,
 }: SchemaFormOptions<TFormData>) {
   const form = useSchemaForm({
     defaultValues: (defaultValues ?? createDefaultValuesFromSchema(schema)) as TFormData,
-
     onSubmit,
-
     validators: mergeFormValidators(validators, zodSchema, validationMode),
   })
 

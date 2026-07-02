@@ -43,23 +43,16 @@ const formApi = createFormHook({
 
   fieldComponents: {
     Input: withSuspense(LazyInputField),
-
     InputField: withSuspense(LazyInputField),
-
     Select: withSuspense(LazySelectField),
-
     SelectField: withSuspense(LazySelectField),
-
     Textarea: withSuspense(LazyTextareaField),
-
     TextareaField: withSuspense(LazyTextareaField),
   },
 
   formComponents: {
     SubmitButton,
-
     ResetButton,
-
     FormActions,
   },
 })

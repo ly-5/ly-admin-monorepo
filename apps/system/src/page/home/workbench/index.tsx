@@ -15,6 +15,27 @@ const schema: FormSchemaItem[] = [
     name: 'test',
     label: '测试',
     componentType: 'Input',
+    componentProps: {
+      placeholder: '请输入测试内容',
+    },
+  },
+  {
+    name: 'test2',
+    label: '测试2',
+    componentType: 'Select',
+    placeholder: '请选择',
+    options: [
+      { label: '选项一', value: '1' },
+      { label: '选项二', value: '2' },
+    ],
+  },
+]
+
+const schema2: FormSchemaItem[] = [
+  {
+    name: 'test',
+    label: '测试',
+    componentType: 'Input',
     required: true,
     componentProps: {
       placeholder: '请输入测试内容',
@@ -31,6 +52,14 @@ const schema: FormSchemaItem[] = [
       { label: '选项二', value: '2' },
     ],
   },
+  {
+    name: 'test3',
+    label: '测试3',
+    componentType: 'Textarea',
+    componentProps: {
+      placeholder: '请输入测试内容',
+    },
+  },
 ]
 
 const Page = () => {
@@ -41,7 +70,7 @@ const Page = () => {
           schema={schema}
           validationMode="onChange"
           showActions
-          columns={2}
+          columns={4}
           actions={(form) => (
             <form.FormActions className="justify-end">
               <form.ResetButton>重置</form.ResetButton>
@@ -53,7 +82,16 @@ const Page = () => {
           }}
         />
       </div>
-      <div className="flex-1 rounded-2xl p-4 border border-[#EAEAEA] bg-[#FCFCFC]">工作台列表</div>
+      <div className="flex-1 rounded-2xl p-4 border border-[#EAEAEA] bg-[#FCFCFC]">
+      <Form
+        schema={schema2}
+        validationMode="onChange"
+        columns={2}
+        onSubmit={({ value }) => {
+          console.log(value)
+        }}
+      />
+      </div>
     </>
   )
 }
